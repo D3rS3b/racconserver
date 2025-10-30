@@ -1,0 +1,75 @@
+[build]
+  # Directorio donde se encuentra el código fuente
+  base = "."
+  
+  # Comando para construir el proyecto
+  command = "pnpm install && pnpm run build"
+  
+  # Directorio donde se encuentran los archivos construidos
+  publish = "dist"
+
+[build.environment]
+  # Versión de Node.js para el build
+  NODE_VERSION = "18"
+
+# Configuración para SPA (Single Page Application)
+# Redirige todas las rutas al index.html para que React Router funcione correctamente
+[[redirects]]
+  from = "/*"
+  to = "/index.html"
+  status = 200
+
+# Configuración de headers para optimización
+[[headers]]
+  for = "/*"
+  [headers.values]
+    # Seguridad
+    X-Frame-Options = "DENY"
+    X-XSS-Protection = "1; mode=block"
+    X-Content-Type-Options = "nosniff"
+    Referrer-Policy = "strict-origin-when-cross-origin"
+    
+    # Cache para assets estáticos
+    Cache-Control = "public, max-age=31536000"
+
+[[headers]]
+  for = "*.html"
+  [headers.values]
+    Cache-Control = "public, max-age=0, must-revalidate"
+
+[[headers]]
+  for = "*.json"
+  [headers.values]
+    Cache-Control = "public, max-age=0, must-revalidate"
+
+# Configuración para archivos de imágenes
+[[headers]]
+  for = "*.jpg"
+  [headers.values]
+    Cache-Control = "public, max-age=31536000, immutable"
+
+[[headers]]
+  for = "*.png"
+  [headers.values]
+    Cache-Control = "public, max-age=31536000, immutable"
+
+[[headers]]
+  for = "*.gif"
+  [headers.values]
+    Cache-Control = "public, max-age=31536000, immutable"
+
+[[headers]]
+  for = "*.webp"
+  [headers.values]
+    Cache-Control = "public, max-age=31536000, immutable"
+
+# Configuración para archivos CSS y JS
+[[headers]]
+  for = "*.css"
+  [headers.values]
+    Cache-Control = "public, max-age=31536000, immutable"
+
+[[headers]]
+  for = "*.js"
+  [headers.values]
+    Cache-Control = "public, max-age=31536000, immutable"
